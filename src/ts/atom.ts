@@ -1,6 +1,8 @@
 import { atom } from "jotai";
 import { countTimerType } from "./countTimerType";
 
+export const remandViewAtom = atom(false);
+
 // const countTimerDefault: countTimerType = {
 //     year: '0',
 //     month: '0',
