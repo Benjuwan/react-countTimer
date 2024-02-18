@@ -1,15 +1,13 @@
+import { useAtom } from "jotai";
+import { countTimerAtom } from "../ts/atom";
 import { useCountTimerAction } from "./useCountTimerAction";
 
 export const useCountActionJudgement = () => {
+    const [countTimer] = useAtom(countTimerAtom);
     const { countTimerAction } = useCountTimerAction();
 
     const countAction_Judgement = (
-        timeInterval: number,
-        userSelectedYear: string,
-        userSelectedMonth: string,
-        userSelectedDayDate: string,
-        userSelectedHours: string,
-        userSelectedMinutes: string
+        timeInterval: number
     ) => {
         const thisYear = new Date().getFullYear();
         const thisMonth = new Date().getMonth() + 1;
@@ -19,14 +17,16 @@ export const useCountActionJudgement = () => {
 
         const currentNumber = [thisYear, thisMonth, today, nowHours, nowMinutes];
 
-        const userSelectedValue = `${parseInt(userSelectedYear)}${parseInt(userSelectedMonth)}${parseInt(userSelectedDayDate)}${parseInt(userSelectedHours)}${parseInt(userSelectedMinutes)}`;
-        console.log(currentNumber.join(''), userSelectedValue);
+        if (countTimer !== null) {
+            const userSelectedValue = `${parseInt(countTimer.year)}${parseInt(countTimer.month)}${parseInt(countTimer.dayDate)}${parseInt(countTimer.hour)}${parseInt(countTimer.minute)}`;
+            console.log(currentNumber.join(''), userSelectedValue);
 
-        if (parseInt(currentNumber.join('')) >= parseInt(userSelectedValue)) {
-            alert('過去は選択できません');
-            return;
-        } else {
-            countTimerAction(timeInterval, userSelectedYear, userSelectedMonth, userSelectedDayDate, userSelectedHours, userSelectedMinutes);
+            if (parseInt(currentNumber.join('')) >= parseInt(userSelectedValue)) {
+                alert('過去は選択できません');
+                return;
+            } else {
+                countTimerAction(timeInterval);
+            }
         }
     }
 
