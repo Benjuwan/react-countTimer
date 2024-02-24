@@ -5,20 +5,16 @@ import { useRemandCalc } from "./useRemandCalc";
 import { useRemandCalcDayDate } from "./useRemandCalcDayDate";
 import { useRemandCalcHoursMinutes } from "./useRemandCalcHoursMinutes";
 import { useRemandCalcSeconds } from "./useRemandCalcSeconds";
+import { useInputValSplitUserSelectedTime } from "./useInputValSplitUserSelectedTime";
 
 export const useCountTimerAction = () => {
     const [, setTimeInterval] = useAtom(timeIntervalAtom);
     const [, setCountTimer] = useAtom(countTimerAtom);
     const [, setRemandView] = useAtom(remandViewAtom);
+    const { inputValSplitUserSelectedTime } = useInputValSplitUserSelectedTime();
 
     const countTimerAction: (isInputVal: string) => void = (isInputVal: string) => {
-        const splitDateTime = isInputVal.split('-');
-        const userSelectedHoursMinutes = [...splitDateTime][splitDateTime.length - 1].split('T')[1].split(':');
-        const userSelectedYear = splitDateTime[0];
-        const userSelectedMonth = splitDateTime[1];
-        const userSelectedDayDate = [...splitDateTime][splitDateTime.length - 1].split('T')[0];
-        const userSelectedHours = userSelectedHoursMinutes[0];
-        const userSelectedMinutes = userSelectedHoursMinutes[1];
+        const userSelectedTimeObj: countTimerType = inputValSplitUserSelectedTime(isInputVal);
 
         const thisYear = new Date().getFullYear();
         const thisMonth = new Date().getMonth() + 1;
@@ -29,11 +25,11 @@ export const useCountTimerAction = () => {
         const { remandCalc_Seconds } = useRemandCalcSeconds();
 
         const currTimeInterval: number = setInterval(() => {
-            const remandTime_Year = remandCalc(userSelectedYear, thisYear);
-            const remandTime_Month = remandCalc(userSelectedMonth, thisMonth);
-            const remandTime_DayDate = remandCalc_DayDate(userSelectedYear, userSelectedMonth, thisMonth, userSelectedDayDate);
-            const remandTime_Hours = remandCalc_HoursMinutes(userSelectedMonth, thisMonth, userSelectedHours, 24, true);
-            const remandTime_Minutes = remandCalc_HoursMinutes(userSelectedMonth, thisMonth, userSelectedMinutes, 60);
+            const remandTime_Year = remandCalc(userSelectedTimeObj.year, thisYear);
+            const remandTime_Month = remandCalc(userSelectedTimeObj.month, thisMonth);
+            const remandTime_DayDate = remandCalc_DayDate(userSelectedTimeObj.year, userSelectedTimeObj.month, thisMonth, userSelectedTimeObj.dayDate);
+            const remandTime_Hours = remandCalc_HoursMinutes(userSelectedTimeObj.month, thisMonth, userSelectedTimeObj.hour, 24, true);
+            const remandTime_Minutes = remandCalc_HoursMinutes(userSelectedTimeObj.month, thisMonth, userSelectedTimeObj.minute, 60);
             const theSeconds = remandCalc_Seconds();
 
             if (
@@ -49,8 +45,6 @@ export const useCountTimerAction = () => {
                 setRemandView(false);
                 return;
             }
-
-            console.log(remandTime_Year, remandTime_Month, remandTime_DayDate, remandTime_Hours, remandTime_Minutes, theSeconds);
 
             const newCountTimerItem: countTimerType = {
                 year: remandTime_Year.toString(),

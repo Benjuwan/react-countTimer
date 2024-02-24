@@ -165,7 +165,6 @@ Author: Richard Clark - http://richclarkdesign.com
 Twitter: @rich_clark
 */
 
-
 html {
   font-size: 62.5%;
   scroll-behavior: smooth;
@@ -191,6 +190,7 @@ body {
   line-height: 1.8;
   /* overflow-x: hidden; コンテンツ・要素のはみ出しによる横スクロール防止 */
   overflow-x: hidden;
+  padding: 1em;
 }
 
 @media screen and (min-width: 1025px) {
