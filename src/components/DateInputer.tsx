@@ -1,13 +1,12 @@
 import { ChangeEvent, useState } from "react";
 import { useAtom } from "jotai";
-import { countTimerAtom, remandViewAtom } from "../ts/atom";
+import { countTimerAtom, remandViewAtom, timeIntervalAtom } from "../ts/atom";
 import { RemandViewer } from "./RemandViewer";
 import { useCountActionJudgement } from "../hooks/useCountActionJudgement";
 import { countTimerType } from "../ts/countTimerType";
 
 export const DateInputer = () => {
-    let timeInterval: number = 0; // state 管理しようとすると無理だったので props 渡しで一時しのぎ
-
+    const [timeInterval] = useAtom(timeIntervalAtom);
     const [countTimer, setCountTimer] = useAtom(countTimerAtom);
     const [remandView] = useAtom(remandViewAtom);
 
@@ -40,10 +39,8 @@ export const DateInputer = () => {
 
     const handleClick = () => {
         console.log(countTimer, timeInterval);
-        if (timeInterval) clearInterval(timeInterval);
-
         if (countTimer !== null) {
-            countAction_Judgement(timeInterval);
+            countAction_Judgement(isInputVal);
         }
     }
 
