@@ -1,5 +1,5 @@
 export const useRemandCalcDayDate = () => {
-    const remandCalc_DayDate = (
+    const remandCalc_DayDate: (userSelectedYear: string, userSelectedMonth: string, thisMonth: number, userSelectedDayDate: string) => number = (
         userSelectedYear: string,
         userSelectedMonth: string,
         thisMonth: number,
@@ -7,8 +7,8 @@ export const useRemandCalcDayDate = () => {
     ) => {
         const isFutureMonths = parseInt(userSelectedMonth) - thisMonth;
         if (isFutureMonths >= 1) {
-            const thisMonthFinalDayDate = new Date(parseInt(userSelectedYear), thisMonth, 0).getDate();
-            const today = new Date().getDate();
+            const thisMonthFinalDayDate: number = new Date(parseInt(userSelectedYear), thisMonth, 0).getDate();
+            const today: number = new Date().getDate();
             return parseInt(userSelectedDayDate) + (thisMonthFinalDayDate - today);
         } else {
             return isFutureMonths;

@@ -6,3 +6,8 @@ export type countTimerType = {
     minute: string;
     second?: string;
 }
+
+export type monthsAndDaysType = {
+    months: number;
+    days: number;
+}

@@ -1,7 +1,7 @@
 export const useRemandCalcSeconds = () => {
-    const remandCalc_Seconds = () => {
-        let theSeconds = 59;
-        const nowSeconds = new Date().getSeconds();
+    const remandCalc_Seconds: () => number = () => {
+        let theSeconds: number = 59;
+        const nowSeconds: number = new Date().getSeconds();
         return theSeconds - nowSeconds;
     }
 

@@ -1,15 +1,15 @@
 export const useRemandCalcHoursMinutes = () => {
-    const remandCalc_HoursMinutes = (
+    const remandCalc_HoursMinutes: (userSelectedMonth: string, thisMonth: number, userSelectedValue: string, defaultValue: number, hoursBool?: boolean) => number = (
         userSelectedMonth: string,
         thisMonth: number,
         userSelectedValue: string,
         defaultValue: number,
         hoursBool: boolean = false
     ) => {
-        const isFutureMonths = parseInt(userSelectedMonth) - thisMonth;
-        const nowHours = new Date().getHours();
-        const nowMinutes = new Date().getMinutes();
-        let calcValue = 0;
+        const isFutureMonths: number = parseInt(userSelectedMonth) - thisMonth;
+        const nowHours: number = new Date().getHours();
+        const nowMinutes: number = new Date().getMinutes();
+        let calcValue: number = 0;
 
         if (isFutureMonths >= 1) {
             if (hoursBool) calcValue = parseInt(userSelectedValue) + (defaultValue - nowHours);

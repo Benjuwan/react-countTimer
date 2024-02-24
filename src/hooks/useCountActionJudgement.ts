@@ -12,19 +12,18 @@ export const useCountActionJudgement = () => {
     const countAction_Judgement: (isInputVal: string) => void = (isInputVal: string) => {
         const userSelectedTimeObj = inputValSplitUserSelectedTime(isInputVal);
 
-        const thisYear = new Date().getFullYear();
-        const thisMonth = new Date().getMonth() + 1;
-        const today = new Date().getDate();
-        const nowHours = new Date().getHours();
-        const nowMinutes = new Date().getMinutes();
+        const thisYear: number = new Date().getFullYear();
+        const thisMonth: number = new Date().getMonth() + 1;
+        const today: number = new Date().getDate();
+        const nowHours: number = new Date().getHours();
+        const nowMinutes: number = new Date().getMinutes();
 
-        const currentNumber = [thisYear, thisMonth, today, nowHours, nowMinutes];
+        const currentNumber: string[] = [thisYear.toString(), thisMonth.toString().padStart(2, '0'), today.toString().padStart(2, '0'), nowHours.toString().padStart(2, '0'), nowMinutes.toString().padStart(2, '0')];
 
         if (countTimer !== null) {
-            const userSelectedValue = `${parseInt(userSelectedTimeObj.year)}${parseInt(userSelectedTimeObj.month)}${parseInt(userSelectedTimeObj.dayDate)}${parseInt(userSelectedTimeObj.hour)}${parseInt(userSelectedTimeObj.minute)}`;
+            const userSelectedValue = `${userSelectedTimeObj.year}${userSelectedTimeObj.month.toString().padStart(2, '0')}${userSelectedTimeObj.dayDate.toString().padStart(2, '0')}${userSelectedTimeObj.hour.toString().padStart(2, '0')}${userSelectedTimeObj.minute.toString().padStart(2, '0')}`;
 
             console.log(currentNumber.join(''), userSelectedValue);
-            console.log(parseInt(currentNumber.join('')), parseInt(userSelectedValue));
 
             if (parseInt(currentNumber.join('')) >= parseInt(userSelectedValue)) {
                 alert('過去は選択できません');
