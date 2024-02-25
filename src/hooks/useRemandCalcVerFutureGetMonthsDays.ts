@@ -34,7 +34,11 @@ export const useRemandCalcVerFutureGetMonthsDays = () => {
 
             const targetMonths: number[] = [...thisYearRemandMonths, ...futureTargetMonths];
             const targetDays: number = targetMonths.reduce((acuu, curr) => acuu + curr);
-            monthsAndDays.days = targetDays;
+
+            const userSelectedMonthFinalDayDate: number = new Date(parseInt(userSelectedYear), parseInt(userSelectedMonth), 0).getDate();
+            const today: number = new Date().getDate();
+            const remandDays: number = parseInt(userSelectedDayDate) + (userSelectedMonthFinalDayDate - today);
+            monthsAndDays.days = targetDays + remandDays;
 
             return monthsAndDays; // return で処理終了
         }
