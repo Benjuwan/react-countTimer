@@ -1,5 +1,5 @@
 export const useRemandCalcHoursMinutes = () => {
-    const remandCalc_Hours = (
+    const remandCalc_Hours: (userSelectedYear: string, thisYear: number, userSelectedMonth: string, thisMonth: number, userSelectedHours: string, maxHours: number) => number = (
         userSelectedYear: string,
         thisYear: number,
         userSelectedMonth: string,
@@ -26,7 +26,12 @@ export const useRemandCalcHoursMinutes = () => {
                     calcValue = maxHours + (parseInt(userSelectedHours) - nowHours);
                 }
             } else {
-                calcValue = parseInt(userSelectedHours) - nowHours;
+                const isPastHours: boolean = parseInt(userSelectedHours) - nowHours < 0;
+                if (isPastHours) {
+                    calcValue = maxHours + (parseInt(userSelectedHours) - nowHours);
+                } else {
+                    calcValue = parseInt(userSelectedHours) - nowHours;
+                }
             }
         }
 

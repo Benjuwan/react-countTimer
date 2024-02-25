@@ -27,7 +27,7 @@ export const useCountActionJudgement = () => {
 
             if (parseInt(currentNumber.join('')) >= parseInt(userSelectedValue)) {
                 alert('過去は選択できません');
-                return;
+                return; // return で処理終了
             } else {
                 if (timeInterval !== null) clearInterval(timeInterval);
                 setTimeInterval(null);
