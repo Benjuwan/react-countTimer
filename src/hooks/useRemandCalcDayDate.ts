@@ -6,9 +6,11 @@ export const useRemandCalcDayDate = () => {
         userSelectedDayDate: string,
     ) => {
         const isFutureMonths = parseInt(userSelectedMonth) - thisMonth;
-        if (isFutureMonths >= 1) {
+        const today: number = new Date().getDate();
+        if (isFutureMonths === 0) {
+            return parseInt(userSelectedDayDate) - today;
+        } else if (isFutureMonths >= 1) {
             const thisMonthFinalDayDate: number = new Date(parseInt(userSelectedYear), thisMonth, 0).getDate();
-            const today: number = new Date().getDate();
             return parseInt(userSelectedDayDate) + (thisMonthFinalDayDate - today);
         } else {
             return isFutureMonths;

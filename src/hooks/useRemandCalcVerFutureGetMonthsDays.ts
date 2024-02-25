@@ -8,33 +8,44 @@ export const useRemandCalcVerFutureGetMonthsDays = () => {
         thisYear: number,
         thisMonth: number
     ) => {
-        const thisYearDays: number[] = [];
+        const thisYearRemandMonths: number[] = [];
         for (let i = parseInt(userSelectedMonth) + 1; i <= 12; i++) {
             let targetMonth: number = i;
             if (parseInt(userSelectedMonth) - 1 === 1) {
                 targetMonth = + 2;
             }
             const finalDayDate = new Date(thisYear, i, 0).getDate();
-            thisYearDays.push(finalDayDate);
+            thisYearRemandMonths.push(finalDayDate);
         }
 
-        const futureDays: number[] = [];
+        const futureTargetMonths: number[] = [];
         for (let i = 1; i < parseInt(userSelectedMonth); i++) {
             const finalDayDate = new Date(parseInt(userSelectedYear), i, 0).getDate();
-            futureDays.push(finalDayDate);
+            futureTargetMonths.push(finalDayDate);
         }
-        // console.log(thisYearDays, futureDays);
+        console.log(thisYearRemandMonths, futureTargetMonths);
 
-        const targetMonths: number[] = [...thisYearDays, ...futureDays];
-        const reduceAry: number = targetMonths.reduce((acuu, curr) => acuu + curr);
+        /*  */
+        if (parseInt(userSelectedMonth) <= thisMonth) {
+            const targetMonths: number[] = [...thisYearRemandMonths, ...futureTargetMonths];
+            const targetDays: number = targetMonths.reduce((acuu, curr) => acuu + curr);
+
+            const monthsAndDays: monthsAndDaysType = {
+                year: 0,
+                months: futureTargetMonths.length,
+                days: targetDays
+            }
+
+            return monthsAndDays;
+        }
 
         const thisMonthFinalDayDate: number = new Date(parseInt(userSelectedYear), thisMonth, 0).getDate();
+        console.log(thisMonthFinalDayDate);
         const today: number = new Date().getDate();
-        let remandDays: number = parseInt(userSelectedDayDate) + (thisMonthFinalDayDate - today);
-        if (reduceAry % 30 !== 0) remandDays = remandDays + Math.floor(reduceAry % 30);
+        const remandDays: number = parseInt(userSelectedDayDate) + (thisMonthFinalDayDate - today);
 
         const monthsAndDays: monthsAndDaysType = {
-            months: targetMonths.length,
+            months: futureTargetMonths.length - 1,
             days: remandDays
         }
 

@@ -1,31 +1,58 @@
 export const useRemandCalcHoursMinutes = () => {
-    const remandCalc_HoursMinutes: (userSelectedMonth: string, thisMonth: number, userSelectedValue: string, defaultValue: number, hoursBool?: boolean) => number = (
+    const remandCalc_Hours = (
+        userSelectedYear: string,
+        thisYear: number,
         userSelectedMonth: string,
         thisMonth: number,
-        userSelectedValue: string,
-        defaultValue: number,
-        hoursBool: boolean = false
+        userSelectedHours: string,
+        maxHours: number
     ) => {
-        const isFutureMonths: number = parseInt(userSelectedMonth) - thisMonth;
+        const isFutureYear: boolean = parseInt(userSelectedYear) > thisYear;
+        const isFutureMonths: boolean = parseInt(userSelectedMonth) > thisMonth;
         const nowHours: number = new Date().getHours();
-        const nowMinutes: number = new Date().getMinutes();
         let calcValue: number = 0;
 
-        if (isFutureMonths >= 1) {
-            if (hoursBool) calcValue = parseInt(userSelectedValue) + (defaultValue - nowHours);
-            else calcValue = parseInt(userSelectedValue) + (defaultValue - nowMinutes);
+        if (isFutureYear) {
+            if (parseInt(userSelectedHours) - nowHours >= 0) {
+                calcValue = parseInt(userSelectedHours) + (maxHours - nowHours);
+            } else {
+                calcValue = maxHours + (parseInt(userSelectedHours) - nowHours);
+            }
         } else {
-            if (hoursBool) calcValue = parseInt(userSelectedValue) - nowHours;
-            else {
-                const calc = parseInt(userSelectedValue) - nowMinutes;
-                if (calc < 0) calcValue = defaultValue + calc;
-                else calcValue = calc;
+            if (isFutureMonths) {
+                if (parseInt(userSelectedHours) - nowHours >= 0) {
+                    calcValue = parseInt(userSelectedHours) + (maxHours - nowHours);
+                } else {
+                    calcValue = maxHours + (parseInt(userSelectedHours) - nowHours);
+                }
+            } else {
+                calcValue = parseInt(userSelectedHours) - nowHours;
             }
         }
 
-        if (calcValue <= 1) return 0;
-        else return calcValue;
+        return calcValue;
     }
 
-    return { remandCalc_HoursMinutes }
+    const remandCalc_Minutes: (userSelectedMonth: string, thisMonth: number, userSelectedMinutes: string, maxMinutes: number) => number = (
+        userSelectedMonth: string,
+        thisMonth: number,
+        userSelectedMinutes: string,
+        maxMinutes: number
+    ) => {
+        const isFutureMonths: boolean = parseInt(userSelectedMonth) > thisMonth;
+        const nowMinutes: number = new Date().getMinutes();
+        let calcValue: number = 0;
+
+        if (isFutureMonths) {
+            calcValue = parseInt(userSelectedMinutes) + (maxMinutes - nowMinutes);
+        } else {
+            const calc = parseInt(userSelectedMinutes) - nowMinutes;
+            if (calc < 0) calcValue = maxMinutes + calc;
+            else calcValue = calc;
+        }
+
+        return calcValue;
+    }
+
+    return { remandCalc_Hours, remandCalc_Minutes }
 }
