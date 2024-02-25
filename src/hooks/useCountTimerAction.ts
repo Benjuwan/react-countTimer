@@ -22,16 +22,44 @@ export const useCountTimerAction = () => {
 
         const { remandCalc } = useRemandCalc();
         const { remandCalc_DayDate } = useRemandCalcDayDate();
-        const { remandCalc_HoursMinutes } = useRemandCalcHoursMinutes();
+        const { remandCalc_Hours, remandCalc_Minutes } = useRemandCalcHoursMinutes();
         const { remandCalc_Seconds } = useRemandCalcSeconds();
         const { remandCalcVerFuture_GetMonthsDays } = useRemandCalcVerFutureGetMonthsDays();
 
         const currTimeInterval: number = setInterval(() => {
-            const remandTime_Year: number = remandCalc(userSelectedTimeObj.year, thisYear);
-            let remandTime_Month: number = remandCalc(userSelectedTimeObj.month, thisMonth);
-            let remandTime_Daydate: number = remandCalc_DayDate(userSelectedTimeObj.year, userSelectedTimeObj.month, thisMonth, userSelectedTimeObj.dayDate);
-            const remandTime_Hours: number = remandCalc_HoursMinutes(userSelectedTimeObj.month, thisMonth, userSelectedTimeObj.hour, 24, true);
-            const remandTime_Minutes: number = remandCalc_HoursMinutes(userSelectedTimeObj.month, thisMonth, userSelectedTimeObj.minute, 60);
+            let remandTime_Year: number = remandCalc(
+                userSelectedTimeObj.year,
+                thisYear
+            );
+
+            let remandTime_Month: number = remandCalc(
+                userSelectedTimeObj.month,
+                thisMonth
+            );
+
+            let remandTime_Daydate: number = remandCalc_DayDate(
+                userSelectedTimeObj.year,
+                userSelectedTimeObj.month,
+                thisMonth,
+                userSelectedTimeObj.dayDate
+            );
+
+            const remandTime_Hours: number = remandCalc_Hours(
+                userSelectedTimeObj.year,
+                thisYear,
+                userSelectedTimeObj.month,
+                thisMonth,
+                userSelectedTimeObj.hour,
+                24
+            );
+
+            const remandTime_Minutes: number = remandCalc_Minutes(
+                userSelectedTimeObj.month,
+                thisMonth,
+                userSelectedTimeObj.minute,
+                60
+            );
+
             const theSeconds: number = remandCalc_Seconds();
 
             /* 指定数値が翌年以上の場合の「月」と「日」*/
@@ -43,6 +71,8 @@ export const useCountTimerAction = () => {
                     thisYear,
                     thisMonth
                 );
+
+                if (remandCalcVerFutureGetMonthsDays.year) remandTime_Year = remandCalcVerFutureGetMonthsDays.year;
                 remandTime_Month = remandCalcVerFutureGetMonthsDays.months;
                 remandTime_Daydate = remandCalcVerFutureGetMonthsDays.days;
             }

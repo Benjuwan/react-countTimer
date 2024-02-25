@@ -8,6 +8,7 @@ export type countTimerType = {
 }
 
 export type monthsAndDaysType = {
+    year?: number;
     months: number;
     days: number;
 }
