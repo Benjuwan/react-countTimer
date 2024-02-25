@@ -63,7 +63,8 @@ export const useCountTimerAction = () => {
             const theSeconds: number = remandCalc_Seconds();
 
             /* 指定数値が翌年以上の場合の「月」と「日」*/
-            if (parseInt(userSelectedTimeObj.year) > thisYear) {
+            const isFuture: boolean = parseInt(userSelectedTimeObj.year) > thisYear;
+            if (isFuture) {
                 const remandCalcVerFutureGetMonthsDays: monthsAndDaysType = remandCalcVerFuture_GetMonthsDays(
                     userSelectedTimeObj.year,
                     userSelectedTimeObj.month,
@@ -72,7 +73,7 @@ export const useCountTimerAction = () => {
                     thisMonth
                 );
 
-                if (remandCalcVerFutureGetMonthsDays.year) remandTime_Year = remandCalcVerFutureGetMonthsDays.year;
+                if (typeof remandCalcVerFutureGetMonthsDays.year !== 'undefined') remandTime_Year = remandCalcVerFutureGetMonthsDays.year;
                 remandTime_Month = remandCalcVerFutureGetMonthsDays.months;
                 remandTime_Daydate = remandCalcVerFutureGetMonthsDays.days;
             }
@@ -88,7 +89,7 @@ export const useCountTimerAction = () => {
                 clearInterval(currTimeInterval);
                 setTimeInterval(null);
                 setRemandView(false);
-                return;
+                return; // return で処理終了
             }
 
             const newCountTimerItem: countTimerType = {

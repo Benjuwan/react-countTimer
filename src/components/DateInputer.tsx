@@ -1,9 +1,9 @@
 import { ChangeEvent, useState } from "react";
+import { countTimerType } from "../ts/countTimerType";
 import { useAtom } from "jotai";
 import { countTimerAtom, remandViewAtom } from "../ts/atom";
 import { RemandViewer } from "./RemandViewer";
 import { useCountActionJudgement } from "../hooks/useCountActionJudgement";
-import { countTimerType } from "../ts/countTimerType";
 
 export const DateInputer = () => {
     const [countTimer, setCountTimer] = useAtom(countTimerAtom);
