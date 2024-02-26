@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { countTimerType } from "../ts/countTimerType";
 import { useAtom } from "jotai";
 import { countTimerAtom, remandViewAtom } from "../ts/atom";
@@ -8,6 +8,7 @@ import { useCountActionJudgement } from "../hooks/useCountActionJudgement";
 export const DateInputer = () => {
     const [countTimer, setCountTimer] = useAtom(countTimerAtom);
     const [remandView] = useAtom(remandViewAtom);
+    const [currTime, setCurrTime] = useState<string>('');
 
     const { countAction_Judgement } = useCountActionJudgement();
 
@@ -38,11 +39,25 @@ export const DateInputer = () => {
         if (countTimer !== null) countAction_Judgement(isInputVal);
     }
 
+    useEffect(() => {
+        const thisYear: number = new Date().getFullYear();
+        const thisMonth: number = new Date().getMonth() + 1;
+        const today: number = new Date().getDate();
+        const nowHours: number = new Date().getHours();
+        const nowMinutes: number = new Date().getMinutes();
+        setCurrTime(`${thisYear}年${thisMonth}月${today}日${nowHours}：${nowMinutes}`);
+    }, [countTimer]);
+
     return (
         <>
             <input id="datetime" type="datetime-local" value={isInputVal} onInput={(inputVal: ChangeEvent<HTMLInputElement>) => handleInput(inputVal.target.value)} />
             <button type="button" id="runBtn" onClick={handleClick}>run</button>
-            {remandView && <RemandViewer />}
+            {remandView &&
+                <>
+                    <p style={{ 'lineHeight': '2', 'marginTop': '.5em' }}>現在 / {currTime}</p>
+                    <RemandViewer />
+                </>
+            }
         </>
     );
 }
