@@ -22,20 +22,14 @@ export const useCountTimerAction = () => {
 
         const { remandCalc } = useRemandCalc();
         const { remandCalc_DayDate } = useRemandCalcDayDate();
-        const { remandCalc_Hours, remandCalc_Minutes } = useRemandCalcHoursMinutes();
+        const { remandCalcHoursMinutes } = useRemandCalcHoursMinutes();
         const { remandCalc_Seconds } = useRemandCalcSeconds();
         const { remandCalcVerFuture_GetMonthsDays } = useRemandCalcVerFutureGetMonthsDays();
 
         const currTimeInterval: number = setInterval(() => {
-            let remandTime_Year: number = remandCalc(
-                userSelectedTimeObj.year,
-                thisYear
-            );
+            let remandTime_Year: number = remandCalc(userSelectedTimeObj.year, thisYear);
 
-            let remandTime_Month: number = remandCalc(
-                userSelectedTimeObj.month,
-                thisMonth
-            );
+            let remandTime_Month: number = remandCalc(userSelectedTimeObj.month, thisMonth);
 
             let remandTime_Daydate: number = remandCalc_DayDate(
                 userSelectedTimeObj.year,
@@ -44,21 +38,9 @@ export const useCountTimerAction = () => {
                 userSelectedTimeObj.dayDate
             );
 
-            const remandTime_Hours: number = remandCalc_Hours(
-                userSelectedTimeObj.year,
-                thisYear,
-                userSelectedTimeObj.month,
-                thisMonth,
-                userSelectedTimeObj.hour,
-                24
-            );
+            const remandTime_Hours: number = remandCalcHoursMinutes(userSelectedTimeObj.hour, 24);
 
-            const remandTime_Minutes: number = remandCalc_Minutes(
-                userSelectedTimeObj.month,
-                thisMonth,
-                userSelectedTimeObj.minute,
-                60
-            );
+            const remandTime_Minutes: number = remandCalcHoursMinutes(userSelectedTimeObj.minute, 60);
 
             const theSeconds: number = remandCalc_Seconds();
 
