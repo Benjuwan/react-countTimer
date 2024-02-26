@@ -23,28 +23,45 @@ export const useRemandCalcVerFutureGetMonthsDays = () => {
         }
         // console.log(thisYearRemandMonths, futureTargetMonths);
 
+        const thisMonthFinalDayDate: number = new Date(thisYear, thisMonth, 0).getDate(); // 当年当月の最終日付け
+        const today: number = new Date().getDate(); // 本日
+
         /* 今月に対して（未来の）過去月を指定した場合 */
         const isFuture_but_pastMonthsAgainstThisMonths: boolean = parseInt(userSelectedMonth) <= thisMonth;
         if (isFuture_but_pastMonthsAgainstThisMonths) {
+            const justNextYear: boolean = parseInt(userSelectedYear) - thisYear === 1;
             const monthsAndDays: monthsAndDaysType = {
-                year: 0,
+                year: justNextYear ? 0 : parseInt(userSelectedYear) - thisYear,
                 months: 0,
                 days: 0
             }
 
-            const targetMonths: number[] = [...thisYearRemandMonths, ...futureTargetMonths];
+            const isJanuary: boolean = parseInt(userSelectedMonth) === 1; // 1月のみなのか当月より過去月を含んでいくのか要検証（parseInt(userSelectedMonth) === 1 or parseInt(userSelectedMonth) >= 1）
+            let firstMonthReplaceRemandDays: number[] = [];
+            if (isJanuary) {
+                const remandDayForReplace: number = thisMonthFinalDayDate - today;
+                firstMonthReplaceRemandDays = [...thisYearRemandMonths];
+                firstMonthReplaceRemandDays.splice(0, 1, remandDayForReplace); // 先頭部分を残りの日数に置換
+                // console.log(firstMonthReplaceRemandDays);
+            }
+            const targetMonths: number[] = isJanuary ? [...firstMonthReplaceRemandDays, ...futureTargetMonths] : [...thisYearRemandMonths, ...futureTargetMonths];
             const targetDays: number = targetMonths.reduce((acuu, curr) => acuu + curr);
 
             const userSelectedMonthFinalDayDate: number = new Date(parseInt(userSelectedYear), parseInt(userSelectedMonth), 0).getDate();
-            const today: number = new Date().getDate();
             const remandDays: number = parseInt(userSelectedDayDate) + (userSelectedMonthFinalDayDate - today);
-            monthsAndDays.days = targetDays + remandDays;
+            const resultDays: number = targetDays + remandDays;
+
+            if (resultDays > 365) {
+                monthsAndDays.days = resultDays - 365;
+                const nextYear: boolean = parseInt(userSelectedYear) - thisYear >= 1;
+                monthsAndDays.year = nextYear ? parseInt(userSelectedYear) - thisYear : 0;
+            } else {
+                monthsAndDays.days = resultDays;
+            }
 
             return monthsAndDays; // return で処理終了
         }
 
-        const thisMonthFinalDayDate: number = new Date(parseInt(userSelectedYear), thisMonth, 0).getDate();
-        const today: number = new Date().getDate();
         const remandDays: number = parseInt(userSelectedDayDate) + (thisMonthFinalDayDate - today);
 
         const monthsAndDays: monthsAndDaysType = {
