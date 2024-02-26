@@ -45,7 +45,7 @@ export const DateInputer = () => {
         const today: number = new Date().getDate();
         const nowHours: number = new Date().getHours();
         const nowMinutes: number = new Date().getMinutes();
-        setCurrTime(`${thisYear}年${thisMonth}月${today}日${nowHours}：${nowMinutes}`);
+        setCurrTime(`${thisYear}年${thisMonth.toString().padStart(2, '0')}月${today.toString().padStart(2, '0')}日${nowHours.toString().padStart(2, '0')}：${nowMinutes.toString().padStart(2, '0')}`);
     }, [countTimer]);
 
     return (
