@@ -64,8 +64,9 @@ export const useRemandCalcVerFutureGetMonthsDays = () => {
 
         const remandDays: number = parseInt(userSelectedDayDate) + (thisMonthFinalDayDate - today);
 
+        const isNextMonth: boolean = parseInt(userSelectedMonth) - thisMonth === 1;
         const monthsAndDays: monthsAndDaysType = {
-            months: futureTargetMonths.length - 1,
+            months: isFuture_but_pastMonthsAgainstThisMonths || isNextMonth ? 0 : futureTargetMonths.length - 1,
             days: remandDays
         }
 

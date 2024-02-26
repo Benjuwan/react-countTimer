@@ -1,7 +1,7 @@
 import { countTimerType, monthsAndDaysType } from "../ts/countTimerType";
 import { useAtom } from "jotai";
 import { countTimerAtom, remandViewAtom, timeIntervalAtom } from "../ts/atom";
-import { useRemandCalc } from "./useRemandCalc";
+import { useRemandCalcYearMonths } from "./useRemandCalcYearMonths";
 import { useRemandCalcDayDate } from "./useRemandCalcDayDate";
 import { useRemandCalcHoursMinutes } from "./useRemandCalcHoursMinutes";
 import { useRemandCalcSeconds } from "./useRemandCalcSeconds";
@@ -20,16 +20,24 @@ export const useCountTimerAction = () => {
         const thisYear: number = new Date().getFullYear();
         const thisMonth: number = new Date().getMonth() + 1;
 
-        const { remandCalc } = useRemandCalc();
+        const { remandCalcYear, remandCalcMonth } = useRemandCalcYearMonths();
         const { remandCalc_DayDate } = useRemandCalcDayDate();
         const { remandCalcHoursMinutes } = useRemandCalcHoursMinutes();
         const { remandCalc_Seconds } = useRemandCalcSeconds();
         const { remandCalcVerFuture_GetMonthsDays } = useRemandCalcVerFutureGetMonthsDays();
 
         const currTimeInterval: number = setInterval(() => {
-            let remandTime_Year: number = remandCalc(userSelectedTimeObj.year, thisYear);
+            let remandTime_Year: number = remandCalcYear(
+                userSelectedTimeObj.year,
+                thisYear,
+                userSelectedTimeObj.month,
+                thisMonth
+            );
 
-            let remandTime_Month: number = remandCalc(userSelectedTimeObj.month, thisMonth);
+            let remandTime_Month: number = remandCalcMonth(
+                userSelectedTimeObj.month,
+                thisMonth
+            );
 
             let remandTime_Daydate: number = remandCalc_DayDate(
                 userSelectedTimeObj.year,
