@@ -9,3 +9,6 @@
 - styled-components@6.1.8
 - typescript@5.3.3
 - vite@5.1.3
+
+## 遊び方
+当該ファイルで `npm install` - `npm run dev`
