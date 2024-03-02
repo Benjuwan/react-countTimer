@@ -22,7 +22,7 @@ export const useCountTimerAction = () => {
 
         const { remandCalcYear, remandCalcMonth } = useRemandCalcYearMonths();
         const { remandCalc_DayDate } = useRemandCalcDayDate();
-        const { remandCalcHoursMinutes } = useRemandCalcHoursMinutes();
+        const { remandCalcHours, remandCalcMinutes } = useRemandCalcHoursMinutes();
         const { remandCalc_Seconds } = useRemandCalcSeconds();
         const { remandCalcVerFuture_GetMonthsDays } = useRemandCalcVerFutureGetMonthsDays();
 
@@ -46,9 +46,9 @@ export const useCountTimerAction = () => {
                 userSelectedTimeObj.dayDate
             );
 
-            const remandTime_Hours: number = remandCalcHoursMinutes(userSelectedTimeObj.hour, 24);
+            const remandTime_Hours: number = remandCalcHours(userSelectedTimeObj.hour, userSelectedTimeObj.minute);
 
-            const remandTime_Minutes: number = remandCalcHoursMinutes(userSelectedTimeObj.minute, 60);
+            const remandTime_Minutes: number = remandCalcMinutes(userSelectedTimeObj.minute);
 
             const theSeconds: number = remandCalc_Seconds();
 
