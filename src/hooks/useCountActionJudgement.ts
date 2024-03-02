@@ -23,7 +23,7 @@ export const useCountActionJudgement = () => {
         if (countTimer !== null) {
             const userSelectedValue = `${userSelectedTimeObj.year}${userSelectedTimeObj.month.toString().padStart(2, '0')}${userSelectedTimeObj.dayDate.toString().padStart(2, '0')}${userSelectedTimeObj.hour.toString().padStart(2, '0')}${userSelectedTimeObj.minute.toString().padStart(2, '0')}`;
 
-            console.log(currentNumber.join(''), userSelectedValue);
+            // console.log(currentNumber.join(''), userSelectedValue);
 
             if (parseInt(currentNumber.join('')) >= parseInt(userSelectedValue)) {
                 alert('過去は選択できません');

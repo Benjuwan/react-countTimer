@@ -1,22 +1,49 @@
 export const useRemandCalcHoursMinutes = () => {
-    const remandCalcHoursMinutes: (userSelectedValue: string, maxValue: number) => number = (
-        userSelectedValue: string,
-        maxValue: number,
+    const remandCalcHours = (
+        userSelectedHours: string,
+        userSelectedMinutes: string
     ) => {
-        let calcValue: number = 0;
-        const currentValue: number = maxValue === 24 ? new Date().getHours() : new Date().getMinutes() + 1; // 秒数の数値（の加算分）を考慮して分の数値には +1
+        const thisHours: number = new Date().getHours();
+        const isJustNextFrag: boolean = parseInt(userSelectedHours) - thisHours === 1;
+        if (isJustNextFrag) {
+            const thisMinutes: number = new Date().getMinutes();
+            const userSelectedMinutesAhead: boolean = parseInt(userSelectedMinutes) >= thisMinutes;
+            if (userSelectedMinutesAhead) return 1;
+            else return 0
+        }
 
-        const isPast: boolean = parseInt(userSelectedValue) - currentValue < 0;
+        let calcValue: number = 0;
+        const currentValue: number = new Date().getHours();
+
+        const isPast: boolean = parseInt(userSelectedHours) - currentValue < 0;
         if (isPast) {
-            calcValue = maxValue + (parseInt(userSelectedValue) - currentValue);
-        } else if (parseInt(userSelectedValue) - currentValue === 0) {
+            calcValue = 24 + (parseInt(userSelectedHours) - currentValue);
+        } else if (parseInt(userSelectedHours) - currentValue === 0) {
             return calcValue;
         } else {
-            calcValue = parseInt(userSelectedValue) - currentValue;
+            calcValue = parseInt(userSelectedHours) - currentValue;
         }
 
         return calcValue;
     }
 
-    return { remandCalcHoursMinutes }
+    const remandCalcMinutes: (userSelectedMinutes: string) => number = (
+        userSelectedMinutes: string
+    ) => {
+        let calcValue: number = 0;
+        const currentValue: number = new Date().getMinutes() + 1; // 秒数の数値（の加算分）を考慮して分の数値には +1
+
+        const isPast: boolean = parseInt(userSelectedMinutes) - currentValue < 0;
+        if (isPast) {
+            calcValue = 60 + (parseInt(userSelectedMinutes) - currentValue);
+        } else if (parseInt(userSelectedMinutes) - currentValue === 0) {
+            return calcValue;
+        } else {
+            calcValue = parseInt(userSelectedMinutes) - currentValue;
+        }
+
+        return calcValue;
+    }
+
+    return { remandCalcHours, remandCalcMinutes }
 }

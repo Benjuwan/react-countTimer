@@ -20,12 +20,16 @@ export const useRemandCalcYearMonths = () => {
         thisMonth: number
     ) => {
         let calcValue: number = 0;
-        const isNextMonth: boolean = parseInt(userSelectedMonth) - thisMonth === 1;
+
+        const isNextMonth: boolean = parseInt(userSelectedMonth) - thisMonth >= 1;
         const isFuture_but_pastMonthsAgainstThisMonths: boolean = parseInt(userSelectedMonth) <= thisMonth;
-        if (isFuture_but_pastMonthsAgainstThisMonths || isNextMonth) {
+
+        if (isFuture_but_pastMonthsAgainstThisMonths) {
+            if (isNextMonth) calcValue = (parseInt(userSelectedMonth) - 1) - thisMonth; // 日数（の数値分）を考慮して入力月から-1
             return calcValue;
         } else {
-            calcValue = parseInt(userSelectedMonth) - thisMonth;
+            if (isNextMonth) calcValue = (parseInt(userSelectedMonth) - 1) - thisMonth; // 日数（の数値分）を考慮して入力月から-1
+            else calcValue = parseInt(userSelectedMonth) - thisMonth;
             return calcValue;
         }
     }

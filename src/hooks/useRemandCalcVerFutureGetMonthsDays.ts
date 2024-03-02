@@ -1,7 +1,7 @@
 import { monthsAndDaysType } from "../ts/countTimerType";
 
 export const useRemandCalcVerFutureGetMonthsDays = () => {
-    const calcThisYearRemandDays = (
+    const calcThisYearRemandDays: (userSelectedYear: string, userSelectedMonth: string, thisYear: number, today: number, isJan: boolean, sameMonth?: boolean) => number = (
         userSelectedYear: string,
         userSelectedMonth: string,
         thisYear: number,
@@ -119,7 +119,7 @@ export const useRemandCalcVerFutureGetMonthsDays = () => {
 
         const isNextMonth: boolean = parseInt(userSelectedMonth) - thisMonth === 1;
         const monthsAndDays: monthsAndDaysType = {
-            months: isFuture_but_pastMonthsAgainstThisMonths || isNextMonth ? 0 : futureTargetPassedMonths.length - 1,
+            months: isFuture_but_pastMonthsAgainstThisMonths || isNextMonth ? 0 : futureTargetPassedMonths.length - 3, // 日数（の加算分）を考慮して-3
             days: remandDays
         }
 
